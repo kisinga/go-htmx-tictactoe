@@ -40,6 +40,14 @@ func main() {
 		}
 		return e.Render(http.StatusOK, "index", res)
 	})
+	e.GET("/get-info", func(c echo.Context) error {
+		res := map[string]interface{}{
+			"Name":  "Kisinga",
+			"Phone": "012345678",
+			"Email": "tester@gmail.com",
+		}
+		return c.Render(http.StatusOK, "name_card", res)
+	})
 
 	e.Logger.Fatal(e.Start(":4040"))
 }

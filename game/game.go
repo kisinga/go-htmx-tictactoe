@@ -1,4 +1,4 @@
-package main
+package game
 
 import (
 	"errors"
@@ -7,11 +7,11 @@ import (
 
 type xORo string
 
-const x xORo = "x"
-const o xORo = "o"
+const X xORo = "x"
+const O xORo = "o"
 
 type play struct {
-	owner player
+	owner Player
 	value xORo
 }
 
@@ -24,18 +24,18 @@ type row [3]*play
 type grid [3]row
 type game struct {
 	grid           [3]row
-	nextPlayerTurn player
+	nextPlayerTurn Player
 	playerNames    playerNames
 }
 
-type player = int
+type Player = int
 
 const (
-	player1 player = 1 << iota
-	player2 player = iota
+	Player1 Player = 1 << iota
+	Player2 Player = iota
 )
 
-func newGame(player1Name, player2Name string) *game {
+func NewGame(player1Name, player2Name string) *game {
 	return &game{
 		grid: grid{
 			row{
@@ -48,7 +48,7 @@ func newGame(player1Name, player2Name string) *game {
 				nil, nil, nil,
 			},
 		},
-		nextPlayerTurn: player1,
+		nextPlayerTurn: Player1,
 		playerNames: playerNames{
 			player1: player1Name,
 			player2: player2Name,
@@ -56,7 +56,7 @@ func newGame(player1Name, player2Name string) *game {
 	}
 }
 
-func (g *game) play(xoro xORo, row int, col int, p player) error {
+func (g *game) Play(xoro xORo, row int, col int, p Player) error {
 	if g.grid[row][col] == nil {
 		g.grid[row][col] = &play{
 			owner: p,
@@ -71,7 +71,7 @@ func (g *game) play(xoro xORo, row int, col int, p player) error {
 	return nil
 }
 
-func (g *game) checkWinner() *player {
+func (g *game) checkWinner() *Player {
 	// conditions for winning
 	// 3 cols
 	for x, _ := range g.grid {
@@ -93,14 +93,4 @@ func (g *game) checkWinner() *player {
 	// diagonals
 
 	return nil
-}
-
-func main() {
-
-	g := newGame("", "")
-	err := g.play(x, 0, 0, player1)
-	if err != nil {
-		fmt.Println(err)
-	}
-	fmt.Println(g)
 }

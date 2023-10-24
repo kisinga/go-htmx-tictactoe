@@ -1,10 +1,7 @@
 {{define "name_card"}}
-<div>
+<div class="bg-red-100 p-4 rounded-xl">
   <p>User Personal Information:</p>
-  <ol>
-    <li>Name: {{.Name}}</li>
-    <li>Phone: {{.Phone}}</li>
-    <li>Email: {{.Email}}</li>
-  </ol>
+  <p>Player1: {{.PlayerNames.Player1}}</p>
+  <p>Player2: {{.PlayerNames.Player2}}</p>
 </div>
 {{end}}

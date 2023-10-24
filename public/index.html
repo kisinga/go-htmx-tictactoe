@@ -4,20 +4,37 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hello, World!</title>
+    <title>Tic Tac Toe</title>
+    <link rel="stylesheet" href="/dist/tailwind.css" />
+
     <script
       src="https://unpkg.com/htmx.org@1.9.5"
       integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO"
       crossorigin="anonymous"
     ></script>
   </head>
-  <body>
-    <div id="user-info">
-      <p>{{.Name}}</p>
-      <button hx-get="/get-info" hx-target="#user-info" hx-swap="innerHTML">
-        Reveal Info
-      </button>
+  <body class="flex justify-center items-center min-h-screen bg-gray-100">
+    {{if .}} 
+    {{template "name_card" .}}
+    {{template "grid" .Grid}}
+    {{else}} 
+    <div>
+        <form class="flex flex-col items-center" hx-post="/new_game">
+
+          <input
+            class="border border-gray-400 w-1/2 text-center"
+            type="text"
+            name="player1"
+            placeholder="Enter your name"
+          />
+          <button
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          type="submit"
+        >
+          Submit
+        </button>
     </div>
+    {{end}} 
   </body>
 </html>
 {{end}}

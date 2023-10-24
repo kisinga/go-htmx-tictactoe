@@ -5,27 +5,26 @@ import (
 	"fmt"
 )
 
-type xORo string
+type XORO string
 
-const X xORo = "x"
-const O xORo = "o"
+const X XORO = "x"
+const O XORO = "o"
 
-type play struct {
-	owner Player
-	value xORo
+type Element struct {
+	Owner Player
+	Value XORO
 }
 
-type playerNames struct {
-	player1 string
-	player2 string
+type PlayerNames struct {
+	Player1 string
+	Player2 string
 }
 
-type row [3]*play
-type grid [3]row
+type Row [3]*Element
 type game struct {
-	grid           [3]row
-	nextPlayerTurn Player
-	playerNames    playerNames
+	Grid           [3]Row
+	NextPlayerTurn Player
+	PlayerNames    PlayerNames
 }
 
 type Player = int
@@ -37,30 +36,37 @@ const (
 
 func NewGame(player1Name, player2Name string) *game {
 	return &game{
-		grid: grid{
-			row{
+		Grid: [3]Row{
+			{
 				nil, nil, nil,
 			},
-			row{
+			{
 				nil, nil, nil,
 			},
-			row{
+			{
 				nil, nil, nil,
 			},
 		},
-		nextPlayerTurn: Player1,
-		playerNames: playerNames{
-			player1: player1Name,
-			player2: player2Name,
+		NextPlayerTurn: Player1,
+		PlayerNames: PlayerNames{
+			Player1: player1Name,
+			Player2: player2Name,
 		},
 	}
 }
 
-func (g *game) Play(xoro xORo, row int, col int, p Player) error {
-	if g.grid[row][col] == nil {
-		g.grid[row][col] = &play{
-			owner: p,
-			value: xoro,
+type Play struct {
+	Owner Player
+	Value XORO
+	row   int
+	col   int
+}
+
+func (g *game) Play(p Play) error {
+	if g.Grid[p.row][p.col] == nil {
+		g.Grid[p.row][p.col] = &Element{
+			Owner: p.Owner,
+			Value: p.Value,
 		}
 	} else {
 		return errors.New("illegal move")
@@ -74,18 +80,18 @@ func (g *game) Play(xoro xORo, row int, col int, p Player) error {
 func (g *game) checkWinner() *Player {
 	// conditions for winning
 	// 3 cols
-	for x, _ := range g.grid {
-		if g.grid[0][x] != nil && g.grid[1][x] != nil && g.grid[2][x] != nil {
-			if (g.grid[0][x].value == g.grid[1][x].value && g.grid[1][x].value == g.grid[2][x].value) && (g.grid[0][x].owner == g.grid[1][x].owner && g.grid[1][x].owner == g.grid[2][x].owner) {
-				return &g.grid[0][x].owner
+	for x, _ := range g.Grid {
+		if g.Grid[0][x] != nil && g.Grid[1][x] != nil && g.Grid[2][x] != nil {
+			if (g.Grid[0][x].Value == g.Grid[1][x].Value && g.Grid[1][x].Value == g.Grid[2][x].Value) && (g.Grid[0][x].Owner == g.Grid[1][x].Owner && g.Grid[1][x].Owner == g.Grid[2][x].Owner) {
+				return &g.Grid[0][x].Owner
 			}
 		}
 	}
 	// 3 rows
-	for x, _ := range g.grid {
-		if g.grid[x][0] != nil && g.grid[x][1] != nil && g.grid[x][2] != nil {
-			if (g.grid[x][0].value == g.grid[x][1].value && g.grid[x][1].value == g.grid[x][2].value) && (g.grid[x][0].owner == g.grid[x][1].owner && g.grid[x][1].owner == g.grid[x][2].owner) {
-				return &g.grid[0][x].owner
+	for x, _ := range g.Grid {
+		if g.Grid[x][0] != nil && g.Grid[x][1] != nil && g.Grid[x][2] != nil {
+			if (g.Grid[x][0].Value == g.Grid[x][1].Value && g.Grid[x][1].Value == g.Grid[x][2].Value) && (g.Grid[x][0].Owner == g.Grid[x][1].Owner && g.Grid[x][1].Owner == g.Grid[x][2].Owner) {
+				return &g.Grid[0][x].Owner
 			}
 		}
 	}

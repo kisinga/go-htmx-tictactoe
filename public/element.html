@@ -1,0 +1,13 @@
+{{define "element"}}
+<div
+  class="w-12 h-12 flex items-center justify-center text-2xl font-bold border border-gray-400 bg-white"
+>
+  {{if .}} {{ if eq .Value "x" }}
+  <span class="text-red-500">x</span>
+  {{ else if eq .Value "o" }}
+  <span class="text-blue-500">o</span>
+  {{ end }} {{else}}
+  <span>Empty</span>
+  {{end}}
+</div>
+{{end}}

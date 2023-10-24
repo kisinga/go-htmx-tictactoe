@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/kisinga/go-htmx-tictactoe/game"
@@ -13,12 +12,7 @@ import (
 
 func main() {
 
-	g := game.NewGame("", "")
-	err := g.Play(game.X, 0, 0, game.Player1)
-	if err != nil {
-		fmt.Println(err)
-	}
-	fmt.Println(g)
+	g := game.NewGame("Test1", "Test2")
 
 	e := echo.New()
 
@@ -32,22 +26,21 @@ func main() {
 	// This will initiate our template renderer
 	template.NewTemplateRenderer(e, "public/*.html")
 
-	e.GET("/hello", func(e echo.Context) error {
-		res := map[string]interface{}{
-			"Name":  "Kisinga",
-			"Phone": "012345678",
-			"Email": "tester@gmail.com",
-		}
-		return e.Render(http.StatusOK, "index", res)
+	e.GET("/", func(e echo.Context) error {
+		return e.Render(http.StatusOK, "index", nil)
 	})
-	e.GET("/get-info", func(c echo.Context) error {
-		res := map[string]interface{}{
-			"Name":  "Kisinga",
-			"Phone": "012345678",
-			"Email": "tester@gmail.com",
-		}
-		return c.Render(http.StatusOK, "name_card", res)
+
+	e.GET("/game/:id", func(e echo.Context) error {
+		// gameId := e.Param("id")
+		return e.Render(http.StatusOK, "index", g)
 	})
+
+	e.GET("/play", func(c echo.Context) error {
+		newPlay := game.Play{}
+		return g.Play(newPlay)
+	})
+
+	e.Static("/dist", "dist")
 
 	e.Logger.Fatal(e.Start(":4040"))
 }

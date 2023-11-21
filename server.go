@@ -2,6 +2,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/kisinga/go-htmx-tictactoe/game"
@@ -32,12 +33,20 @@ func main() {
 	})
 
 	e.GET("/game/:id", func(e echo.Context) error {
-		// gameId := e.Param("id")
-		return e.Render(http.StatusOK, "index", g)
+		gameId := e.Param("id")
+		fmt.Println(gameId)
+		err := e.Render(http.StatusOK, "index", g)
+		fmt.Errorf("error: %v", err)
+		return err
+	})
+
+	e.POST("new_game", func(c echo.Context) error {
+		newGame := game.NewGame("Test1", "Test2")
+		return c.Render(http.StatusOK, "index", newGame)
 	})
 
 	e.GET("/play", func(c echo.Context) error {
-		newPlay := game.Play{}
+		newPlay := game.Move{}
 		return g.Play(newPlay)
 	})
 

@@ -20,5 +20,7 @@
 # Go workspace file
 go.work
 
+temp
+tmp
 
 node_modules

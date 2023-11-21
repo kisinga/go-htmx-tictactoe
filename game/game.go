@@ -55,14 +55,14 @@ func NewGame(player1Name, player2Name string) *game {
 	}
 }
 
-type Play struct {
+type Move struct {
 	Owner Player
 	Value XORO
 	row   int
 	col   int
 }
 
-func (g *game) Play(p Play) error {
+func (g *game) Play(p Move) error {
 	if g.Grid[p.row][p.col] == nil {
 		g.Grid[p.row][p.col] = &Element{
 			Owner: p.Owner,

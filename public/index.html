@@ -15,8 +15,8 @@
   </head>
   <body class="flex justify-center items-center min-h-screen bg-gray-100">
     {{if .}} 
-    <!-- {{template "name_card" .}} -->
-    <!-- {{template "grid" .Grid}} -->
+    {{template "name_card" .}} <br />
+    {{template "grid" .Grid}}
     {{else}} 
     <div>
         <form class="flex flex-col items-center" hx-post="/new_game">

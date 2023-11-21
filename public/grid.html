@@ -2,8 +2,8 @@
 <div class="grid grid-cols-3 gap-2">
   {{range .}}
   <div>
-    {{ range $index, $element := . }} {{$index}}{{template "element" $index}}{{
-    end }}
+    {{ range $index, $element := . }} {{$index}}{{template "element"
+    $element}}{{ end }}
   </div>
   {{end}}
 </div>

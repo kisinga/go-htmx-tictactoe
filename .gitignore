@@ -22,5 +22,6 @@ go.work
 
 temp
 tmp
+static/tailwind.css
 
 node_modules

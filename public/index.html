@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tic Tac Toe</title>
-    <link rel="stylesheet" href="/dist/tailwind.css" />
+    <link rel="stylesheet" href="/static/tailwind.css" />
 
     <script
       src="https://unpkg.com/htmx.org@1.9.5"
@@ -15,8 +15,8 @@
   </head>
   <body class="flex justify-center items-center min-h-screen bg-gray-100">
     {{if .}} 
-    {{template "name_card" .}}
-    {{template "grid" .Grid}}
+    <!-- {{template "name_card" .}} -->
+    <!-- {{template "grid" .Grid}} -->
     {{else}} 
     <div>
         <form class="flex flex-col items-center" hx-post="/new_game">

@@ -1,3 +1,4 @@
+//go:generate yarn build:css
 package main
 
 import (
@@ -40,7 +41,7 @@ func main() {
 		return g.Play(newPlay)
 	})
 
-	e.Static("/dist", "dist")
+	e.Static("/static", "static")
 
 	e.Logger.Fatal(e.Start(":4040"))
 }

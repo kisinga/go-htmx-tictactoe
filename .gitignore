@@ -20,8 +20,8 @@
 # Go workspace file
 go.work
 
-temp
-tmp
+temp/
+tmp/
 static/tailwind.css
 
 node_modules

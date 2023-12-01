@@ -2,8 +2,10 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/kisinga/go-htmx-tictactoe/game"
 	"github.com/kisinga/go-htmx-tictactoe/template"
@@ -46,8 +48,26 @@ func main() {
 	})
 
 	e.GET("/play", func(c echo.Context) error {
-		newPlay := game.Move{}
-		return g.Play(newPlay)
+		rowStr := c.QueryParam("row")
+		colStr := c.QueryParam("col")
+
+		row, err := strconv.Atoi(rowStr)
+		if err != nil {
+			return errors.New("invalid row value")
+		}
+		col, err := strconv.Atoi(colStr)
+		if err != nil {
+			return errors.New("invalid column value")
+		}
+		winner, e, err := g.Play(row, col)
+		if winner != nil {
+			fmt.Println(winner, *e, err)
+		}
+		if err != nil {
+			fmt.Errorf("error: %v", err)
+			return err
+		}
+		return c.Render(http.StatusOK, "element", e)
 	})
 
 	e.Static("/static", "static")

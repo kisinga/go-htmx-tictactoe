@@ -1,9 +1,9 @@
 {{define "grid"}}
 <div class="grid grid-cols-3 gap-2">
-  {{range .}}
+  {{range $gridIndex, $row := .}}
   <div>
-    {{ range $index, $element := . }} {{$index}}{{template "element"
-    $element}}{{ end }}
+    {{ range $index, $element := $row }} {{template "element" $element}}{{ end
+    }}
   </div>
   {{end}}
 </div>

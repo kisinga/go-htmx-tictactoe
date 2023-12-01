@@ -2,7 +2,6 @@ package game
 
 import (
 	"errors"
-	"fmt"
 )
 
 type XORO string
@@ -10,9 +9,18 @@ type XORO string
 const X XORO = "x"
 const O XORO = "o"
 
-type Element struct {
+type ElementValue struct {
 	Owner Player
-	Value XORO
+	XorO  XORO
+}
+
+type ElementID struct {
+	Row int
+	Col int
+}
+type Element struct {
+	Value *ElementValue
+	Id    ElementID
 }
 
 type PlayerNames struct {
@@ -20,10 +28,11 @@ type PlayerNames struct {
 	Player2 string
 }
 
-type Row [3]*Element
+type Row [3]Element
 type game struct {
 	Grid           [3]Row
 	NextPlayerTurn Player
+	NextPlayerXorO XORO
 	PlayerNames    PlayerNames
 }
 
@@ -38,16 +47,50 @@ func NewGame(player1Name, player2Name string) *game {
 	return &game{
 		Grid: [3]Row{
 			{
-				nil, nil, nil,
+				Element{
+					Value: nil,
+					Id:    ElementID{Row: 0, Col: 0},
+				},
+				Element{
+					Value: nil,
+					Id:    ElementID{Row: 0, Col: 1},
+				},
+				Element{
+					Value: nil,
+					Id:    ElementID{Row: 0, Col: 2},
+				},
 			},
 			{
-				nil, nil, nil,
+				Element{
+					Value: nil,
+					Id:    ElementID{Row: 1, Col: 0},
+				},
+				Element{
+					Value: nil,
+					Id:    ElementID{Row: 1, Col: 1},
+				},
+				Element{
+					Value: nil,
+					Id:    ElementID{Row: 1, Col: 2},
+				},
 			},
 			{
-				nil, nil, nil,
+				Element{
+					Value: nil,
+					Id:    ElementID{Row: 2, Col: 0},
+				},
+				Element{
+					Value: nil,
+					Id:    ElementID{Row: 2, Col: 1},
+				},
+				Element{
+					Value: nil,
+					Id:    ElementID{Row: 2, Col: 2},
+				},
 			},
 		},
 		NextPlayerTurn: Player1,
+		NextPlayerXorO: X,
 		PlayerNames: PlayerNames{
 			Player1: player1Name,
 			Player2: player2Name,
@@ -55,43 +98,54 @@ func NewGame(player1Name, player2Name string) *game {
 	}
 }
 
-type Move struct {
-	Owner Player
-	Value XORO
-	row   int
-	col   int
-}
-
-func (g *game) Play(p Move) error {
-	if g.Grid[p.row][p.col] == nil {
-		g.Grid[p.row][p.col] = &Element{
-			Owner: p.Owner,
-			Value: p.Value,
+func (g *game) Play(row int, col int) (winner *int, element *Element, err error) {
+	if row < 0 || row > 2 || col < 0 || col > 2 {
+		return nil, nil, errors.New("illegal move")
+	}
+	e := Element{
+		Value: &ElementValue{
+			Owner: g.NextPlayerTurn,
+			XorO:  g.NextPlayerXorO,
+		},
+		Id: ElementID{
+			Row: row,
+			Col: col,
+		},
+	}
+	if g.Grid[row][col].Value == nil {
+		g.Grid[row][col] = e
+		if g.NextPlayerTurn == Player1 {
+			g.NextPlayerTurn = Player2
+		} else {
+			g.NextPlayerTurn = Player1
+		}
+		if g.NextPlayerXorO == X {
+			g.NextPlayerXorO = O
+		} else {
+			g.NextPlayerXorO = X
 		}
 	} else {
-		return errors.New("illegal move")
+		return nil, nil, errors.New("illegal move")
 	}
 
-	winner := g.checkWinner()
-	fmt.Println(winner)
-	return nil
+	return g.checkWinner(), &e, nil
 }
 
 func (g *game) checkWinner() *Player {
 	// conditions for winning
 	// 3 cols
 	for x, _ := range g.Grid {
-		if g.Grid[0][x] != nil && g.Grid[1][x] != nil && g.Grid[2][x] != nil {
-			if (g.Grid[0][x].Value == g.Grid[1][x].Value && g.Grid[1][x].Value == g.Grid[2][x].Value) && (g.Grid[0][x].Owner == g.Grid[1][x].Owner && g.Grid[1][x].Owner == g.Grid[2][x].Owner) {
-				return &g.Grid[0][x].Owner
+		if g.Grid[0][x].Value != nil && g.Grid[1][x].Value != nil && g.Grid[2][x].Value != nil {
+			if &g.Grid[0][x].Value == &g.Grid[1][x].Value && &g.Grid[1][x].Value == &g.Grid[2][x].Value {
+				return &g.Grid[0][x].Value.Owner
 			}
 		}
 	}
 	// 3 rows
 	for x, _ := range g.Grid {
-		if g.Grid[x][0] != nil && g.Grid[x][1] != nil && g.Grid[x][2] != nil {
-			if (g.Grid[x][0].Value == g.Grid[x][1].Value && g.Grid[x][1].Value == g.Grid[x][2].Value) && (g.Grid[x][0].Owner == g.Grid[x][1].Owner && g.Grid[x][1].Owner == g.Grid[x][2].Owner) {
-				return &g.Grid[0][x].Owner
+		if g.Grid[x][0].Value != nil && g.Grid[x][1].Value != nil && g.Grid[x][2].Value != nil {
+			if &g.Grid[x][0].Value == &g.Grid[x][1].Value && &g.Grid[x][1].Value == &g.Grid[x][2].Value {
+				return &g.Grid[0][x].Value.Owner
 			}
 		}
 	}

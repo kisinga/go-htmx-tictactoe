@@ -1,13 +1,20 @@
 {{define "element"}}
 <div
-  class="w-12 h-12 flex items-center justify-center text-2xl font-bold border border-gray-400 bg-white"
+  class="w-12 h-12 flex items-center justify-center text-2xl font-bold border border-gray-400 bg-white opacity-0 animate-fadeIn"
 >
-  {{if .}} {{ if eq .Value "x" }}
+  {{if .Value}} {{ if eq .Value.XorO "x" }}
   <span class="text-red-500">x</span>
-  {{ else if eq .Value "o" }}
+  {{ else if eq .Value.XorO "o" }}
   <span class="text-blue-500">o</span>
   {{ end }} {{else}}
-  <span>🟦</span>
+  <button
+    hx-get="/play?row={{.Id.Row}}&col={{.Id.Col}}"
+    hx-target="this"
+    hx-swap-oob="true"
+    hx-swap="outerHTML"
+  >
+    Play
+  </button>
   {{end}}
 </div>
 {{end}}

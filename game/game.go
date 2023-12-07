@@ -36,6 +36,7 @@ type game struct {
 	NextPlayerTurn Player
 	NextPlayerXorO XORO
 	PlayerNames    PlayerNames
+	Winner         *Player
 }
 
 type games map[int]*game
@@ -151,8 +152,12 @@ func (g *game) TakeTurn(row int, col int) (winner *int, element *Element, err er
 	} else {
 		return nil, nil, errors.New("illegal move")
 	}
+	winner = g.checkWinner()
 
-	return g.checkWinner(), &e, nil
+	if winner != nil {
+		g.Winner = winner
+	}
+	return winner, &e, nil
 }
 
 func (g *game) checkWinner() *Player {
@@ -173,8 +178,17 @@ func (g *game) checkWinner() *Player {
 			}
 		}
 	}
-
 	// diagonals
+	if g.Grid[0][0].Value != nil && g.Grid[1][1].Value != nil && g.Grid[2][2].Value != nil {
+		if &g.Grid[0][0].Value == &g.Grid[1][1].Value && &g.Grid[1][1].Value == &g.Grid[2][2].Value {
+			return &g.Grid[0][0].Value.Owner
+		}
+	}
+	if g.Grid[0][2].Value != nil && g.Grid[1][1].Value != nil && g.Grid[2][0].Value != nil {
+		if &g.Grid[0][2].Value == &g.Grid[1][1].Value && &g.Grid[1][1].Value == &g.Grid[2][0].Value {
+			return &g.Grid[0][2].Value.Owner
+		}
+	}
 
 	return nil
 }

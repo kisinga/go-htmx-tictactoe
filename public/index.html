@@ -18,31 +18,43 @@
       {{if .}}
       <div class="mb-4">{{template "name_card" .}}</div>
       <div class="mt-4">{{template "grid" .Grid}}</div>
-      {{else}}
-      <div class="flex flex-col items-center space-y-4">
-        <form class="w-full max-w-xs" action="/new_game" method="post">
-          <input
-            class="border border-gray-400 w-full p-2 rounded focus:border-blue-500 focus:outline-none focus:ring focus:ring-blue-200"
-            type="text"
-            name="player1"
-            placeholder="Enter Player1 name"
-          />
-          <input
-            class="border border-gray-400 w-full p-2 rounded focus:border-blue-500 focus:outline-none focus:ring focus:ring-blue-200"
-            type="text"
-            name="player2"
-            placeholder="Enter Player2 name"
-          />
-          <button
-            class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2 focus:outline-none focus:ring focus:ring-blue-300"
-            type="submit"
-          >
-            Submit
-          </button>
-        </form>
-      </div>
-      {{end}}
+      {{else if .Winner}}
+      <form action="/reset" method="post">
+        <input type="hidden" name="gameID" value="{{.GameID}}" />
+        <button
+          class="w-full bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-2 focus:outline-none focus:ring focus:ring-red-300"
+          type="submit"
+        >
+          Reset
+        </button>
+      </form>
     </div>
+
+    {{else}}
+    <div class="flex flex-col items-center space-y-4">
+      <form class="w-full max-w-xs" action="/new_game" method="post">
+        <input
+          class="border border-gray-400 w-full p-2 rounded focus:border-blue-500 focus:outline-none focus:ring focus:ring-blue-200"
+          type="text"
+          name="player1"
+          placeholder="Enter Player1 name"
+        />
+        <input
+          class="border border-gray-400 w-full p-2 rounded focus:border-blue-500 focus:outline-none focus:ring focus:ring-blue-200"
+          type="text"
+          name="player2"
+          placeholder="Enter Player2 name"
+        />
+        <button
+          class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2 focus:outline-none focus:ring focus:ring-blue-300"
+          type="submit"
+        >
+          Submit
+        </button>
+      </form>
+    </div>
+
+    {{end}}
   </body>
 </html>
 {{end}}

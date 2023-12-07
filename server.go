@@ -39,7 +39,6 @@ func main() {
 			return c.Redirect(http.StatusSeeOther, "/")
 		}
 		g, ok := game.Games[id]
-		fmt.Println(g)
 		if !ok {
 			return c.Redirect(http.StatusSeeOther, "/")
 		}
@@ -62,7 +61,6 @@ func main() {
 		rowStr := c.QueryParam("row")
 		colStr := c.QueryParam("col")
 		gameIDStr := c.QueryParam("gameID")
-		fmt.Println(rowStr, colStr)
 		row, err := strconv.Atoi(rowStr)
 		if err != nil {
 			return c.String(http.StatusBadRequest, "invalid row value")
@@ -83,13 +81,14 @@ func main() {
 			return c.String(http.StatusBadRequest, "invalid game id")
 		}
 		winner, e, err := g.TakeTurn(row, col)
-		if winner != nil {
-			fmt.Println(winner, *e, err)
-		}
 		if err != nil {
 			fmt.Errorf("error: %v", err)
 			return err
 		}
+		if winner != nil {
+			fmt.Println(winner, *e, err)
+		}
+
 		return c.Render(http.StatusOK, "element", e)
 	})
 

@@ -53,7 +53,22 @@ func main() {
 		player1 := c.FormValue("player1")
 		player2 := c.FormValue("player2")
 		gameID := game.NewGame(player1, player2)
-		fmt.Println(gameID)
+		// fmt.Println(gameID)
+		return c.Redirect(http.StatusSeeOther, fmt.Sprintf("/game/%d", gameID))
+	})
+
+	e.POST("reset", func(c echo.Context) error {
+		gameIDStr := c.FormValue("gameID")
+		fmt.Println(gameIDStr)
+		gameID, err := strconv.Atoi(gameIDStr)
+		if err != nil {
+			return c.String(http.StatusBadRequest, "invalid game id value")
+		}
+		g, ok := game.Games[gameID]
+		if !ok {
+			return c.String(http.StatusBadRequest, "invalid game id provided")
+		}
+		game.Games[gameID] = game.CreateNewGame(g.PlayerNames.Player1, g.PlayerNames.Player2, gameID)
 		return c.Redirect(http.StatusSeeOther, fmt.Sprintf("/game/%d", gameID))
 	})
 
@@ -86,9 +101,9 @@ func main() {
 			return err
 		}
 		if winner != nil {
-			fmt.Println(winner, *e, err)
+			c.Response().Header().Set("HX-Reload", "true")
+			return c.Render(http.StatusOK, "winner", g)
 		}
-
 		return c.Render(http.StatusOK, "element", e)
 	})
 

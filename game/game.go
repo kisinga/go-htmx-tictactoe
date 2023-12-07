@@ -32,6 +32,7 @@ type PlayerNames struct {
 
 type Row [3]Element
 type game struct {
+	GameID         int
 	Grid           [3]Row
 	NextPlayerTurn Player
 	NextPlayerXorO XORO
@@ -50,9 +51,9 @@ const (
 	Player2 Player = iota
 )
 
-func NewGame(player1Name, player2Name string) int {
-	id := generateGameId()
+func CreateNewGame(player1Name, player2Name string, id int) *game {
 	g := &game{
+		GameID: id,
 		Grid: [3]Row{
 			{
 				Element{
@@ -113,7 +114,12 @@ func NewGame(player1Name, player2Name string) int {
 			Player2: player2Name,
 		},
 	}
+	return g
+}
 
+func NewGame(player1Name, player2Name string) int {
+	id := generateGameId()
+	g := CreateNewGame(player1Name, player2Name, id)
 	Games[id] = g
 	return id
 }
@@ -163,29 +169,29 @@ func (g *game) TakeTurn(row int, col int) (winner *int, element *Element, err er
 func (g *game) checkWinner() *Player {
 	// conditions for winning
 	// 3 cols
-	for x, _ := range g.Grid {
+	for x := range g.Grid {
 		if g.Grid[0][x].Value != nil && g.Grid[1][x].Value != nil && g.Grid[2][x].Value != nil {
-			if &g.Grid[0][x].Value == &g.Grid[1][x].Value && &g.Grid[1][x].Value == &g.Grid[2][x].Value {
+			if *g.Grid[0][x].Value == *g.Grid[1][x].Value && *g.Grid[1][x].Value == *g.Grid[2][x].Value {
 				return &g.Grid[0][x].Value.Owner
 			}
 		}
 	}
 	// 3 rows
-	for x, _ := range g.Grid {
+	for x := range g.Grid {
 		if g.Grid[x][0].Value != nil && g.Grid[x][1].Value != nil && g.Grid[x][2].Value != nil {
-			if &g.Grid[x][0].Value == &g.Grid[x][1].Value && &g.Grid[x][1].Value == &g.Grid[x][2].Value {
+			if *g.Grid[x][0].Value == *g.Grid[x][1].Value && *g.Grid[x][1].Value == *g.Grid[x][2].Value {
 				return &g.Grid[0][x].Value.Owner
 			}
 		}
 	}
 	// diagonals
 	if g.Grid[0][0].Value != nil && g.Grid[1][1].Value != nil && g.Grid[2][2].Value != nil {
-		if &g.Grid[0][0].Value == &g.Grid[1][1].Value && &g.Grid[1][1].Value == &g.Grid[2][2].Value {
+		if *g.Grid[0][0].Value == *g.Grid[1][1].Value && *g.Grid[1][1].Value == *g.Grid[2][2].Value {
 			return &g.Grid[0][0].Value.Owner
 		}
 	}
 	if g.Grid[0][2].Value != nil && g.Grid[1][1].Value != nil && g.Grid[2][0].Value != nil {
-		if &g.Grid[0][2].Value == &g.Grid[1][1].Value && &g.Grid[1][1].Value == &g.Grid[2][0].Value {
+		if *g.Grid[0][2].Value == *g.Grid[1][1].Value && *g.Grid[1][1].Value == *g.Grid[2][0].Value {
 			return &g.Grid[0][2].Value.Owner
 		}
 	}

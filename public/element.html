@@ -17,4 +17,13 @@
   </button>
   {{end}}
 </div>
+<script>
+  document.addEventListener("htmx:afterRequest", function (event) {
+    // Check if the server has indicated a full page reload
+    if (event.detail.xhr.getResponseHeader("HX-Reload") === "true") {
+      // Reload the entire page
+      window.location.reload();
+    }
+  });
+</script>
 {{end}}

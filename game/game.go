@@ -2,6 +2,7 @@ package game
 
 import (
 	"errors"
+	"math/rand"
 )
 
 type XORO string
@@ -19,8 +20,9 @@ type ElementID struct {
 	Col int
 }
 type Element struct {
-	Value *ElementValue
-	Id    ElementID
+	Value  *ElementValue
+	Id     ElementID
+	GameID int
 }
 
 type PlayerNames struct {
@@ -36,6 +38,10 @@ type game struct {
 	PlayerNames    PlayerNames
 }
 
+type games map[int]*game
+
+var Games games
+
 type Player = int
 
 const (
@@ -43,49 +49,59 @@ const (
 	Player2 Player = iota
 )
 
-func NewGame(player1Name, player2Name string) *game {
-	return &game{
+func NewGame(player1Name, player2Name string) int {
+	id := generateGameId()
+	g := &game{
 		Grid: [3]Row{
 			{
 				Element{
-					Value: nil,
-					Id:    ElementID{Row: 0, Col: 0},
+					Value:  nil,
+					Id:     ElementID{Row: 0, Col: 0},
+					GameID: id,
 				},
 				Element{
-					Value: nil,
-					Id:    ElementID{Row: 0, Col: 1},
+					Value:  nil,
+					Id:     ElementID{Row: 0, Col: 1},
+					GameID: id,
 				},
 				Element{
-					Value: nil,
-					Id:    ElementID{Row: 0, Col: 2},
-				},
-			},
-			{
-				Element{
-					Value: nil,
-					Id:    ElementID{Row: 1, Col: 0},
-				},
-				Element{
-					Value: nil,
-					Id:    ElementID{Row: 1, Col: 1},
-				},
-				Element{
-					Value: nil,
-					Id:    ElementID{Row: 1, Col: 2},
+					Value:  nil,
+					Id:     ElementID{Row: 0, Col: 2},
+					GameID: id,
 				},
 			},
 			{
 				Element{
-					Value: nil,
-					Id:    ElementID{Row: 2, Col: 0},
+					Value:  nil,
+					Id:     ElementID{Row: 1, Col: 0},
+					GameID: id,
 				},
 				Element{
-					Value: nil,
-					Id:    ElementID{Row: 2, Col: 1},
+					Value:  nil,
+					Id:     ElementID{Row: 1, Col: 1},
+					GameID: id,
 				},
 				Element{
-					Value: nil,
-					Id:    ElementID{Row: 2, Col: 2},
+					Value:  nil,
+					Id:     ElementID{Row: 1, Col: 2},
+					GameID: id,
+				},
+			},
+			{
+				Element{
+					Value:  nil,
+					Id:     ElementID{Row: 2, Col: 0},
+					GameID: id,
+				},
+				Element{
+					Value:  nil,
+					Id:     ElementID{Row: 2, Col: 1},
+					GameID: id,
+				},
+				Element{
+					Value:  nil,
+					Id:     ElementID{Row: 2, Col: 2},
+					GameID: id,
 				},
 			},
 		},
@@ -96,6 +112,14 @@ func NewGame(player1Name, player2Name string) *game {
 			Player2: player2Name,
 		},
 	}
+
+	Games[id] = g
+	return id
+}
+
+// a function that generates a random game id
+func generateGameId() int {
+	return rand.Intn(100000)
 }
 
 func (g *game) TakeTurn(row int, col int) (winner *int, element *Element, err error) {
@@ -153,4 +177,8 @@ func (g *game) checkWinner() *Player {
 	// diagonals
 
 	return nil
+}
+
+func init() {
+	Games = make(games)
 }

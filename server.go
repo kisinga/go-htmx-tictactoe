@@ -2,7 +2,6 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -15,8 +14,6 @@ import (
 )
 
 func main() {
-
-	g := game.NewGame("Test1", "Test2")
 
 	e := echo.New()
 
@@ -34,30 +31,56 @@ func main() {
 		return e.Render(http.StatusOK, "index", nil)
 	})
 
-	e.GET("/game/:id", func(e echo.Context) error {
-		gameId := e.Param("id")
-		fmt.Println(gameId)
-		err := e.Render(http.StatusOK, "index", g)
-		fmt.Errorf("error: %v", err)
-		return err
+	e.GET("/game/:id", func(c echo.Context) error {
+
+		gameId := c.Param("id")
+		id, err := strconv.Atoi(gameId)
+		if err != nil {
+			return c.Redirect(http.StatusSeeOther, "/")
+		}
+		g, ok := game.Games[id]
+		fmt.Println(g)
+		if !ok {
+			return c.Redirect(http.StatusSeeOther, "/")
+		}
+		err = c.Render(http.StatusOK, "index", g)
+		if err != nil {
+			return c.String(http.StatusInternalServerError, err.Error())
+		}
+		return nil
 	})
 
 	e.POST("new_game", func(c echo.Context) error {
-		newGame := game.NewGame("Test1", "Test2")
-		return c.Render(http.StatusOK, "index", newGame)
+		player1 := c.FormValue("player1")
+		player2 := c.FormValue("player2")
+		gameID := game.NewGame(player1, player2)
+		fmt.Println(gameID)
+		return c.Redirect(http.StatusSeeOther, fmt.Sprintf("/game/%d", gameID))
 	})
 
 	e.GET("/play", func(c echo.Context) error {
 		rowStr := c.QueryParam("row")
 		colStr := c.QueryParam("col")
+		gameIDStr := c.QueryParam("gameID")
 		fmt.Println(rowStr, colStr)
 		row, err := strconv.Atoi(rowStr)
 		if err != nil {
-			return errors.New("invalid row value")
+			return c.String(http.StatusBadRequest, "invalid row value")
 		}
+
 		col, err := strconv.Atoi(colStr)
 		if err != nil {
-			return errors.New("invalid column value")
+			return c.String(http.StatusBadRequest, "invalid column value")
+		}
+
+		gameID, err := strconv.Atoi(gameIDStr)
+		if err != nil {
+			return c.String(http.StatusBadRequest, "invalid game id")
+		}
+
+		g, ok := game.Games[gameID]
+		if !ok {
+			return c.String(http.StatusBadRequest, "invalid game id")
 		}
 		winner, e, err := g.TakeTurn(row, col)
 		if winner != nil {

@@ -98,7 +98,7 @@ func NewGame(player1Name, player2Name string) *game {
 	}
 }
 
-func (g *game) Play(row int, col int) (winner *int, element *Element, err error) {
+func (g *game) TakeTurn(row int, col int) (winner *int, element *Element, err error) {
 	if row < 0 || row > 2 || col < 0 || col > 2 {
 		return nil, nil, errors.New("illegal move")
 	}

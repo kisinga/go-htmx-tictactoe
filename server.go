@@ -50,7 +50,7 @@ func main() {
 	e.GET("/play", func(c echo.Context) error {
 		rowStr := c.QueryParam("row")
 		colStr := c.QueryParam("col")
-
+		fmt.Println(rowStr, colStr)
 		row, err := strconv.Atoi(rowStr)
 		if err != nil {
 			return errors.New("invalid row value")
@@ -59,7 +59,7 @@ func main() {
 		if err != nil {
 			return errors.New("invalid column value")
 		}
-		winner, e, err := g.Play(row, col)
+		winner, e, err := g.TakeTurn(row, col)
 		if winner != nil {
 			fmt.Println(winner, *e, err)
 		}

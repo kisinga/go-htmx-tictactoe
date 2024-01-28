@@ -20,9 +20,8 @@ type ElementID struct {
 	Col int
 }
 type Element struct {
-	Value  *ElementValue
-	Id     ElementID
-	GameID int
+	Value *ElementValue
+	Id    ElementID
 }
 
 type PlayerNames struct {
@@ -57,53 +56,44 @@ func CreateNewGame(player1Name, player2Name string, id int) *game {
 		Grid: [3]Row{
 			{
 				Element{
-					Value:  nil,
-					Id:     ElementID{Row: 0, Col: 0},
-					GameID: id,
+					Value: nil,
+					Id:    ElementID{Row: 0, Col: 0},
 				},
 				Element{
-					Value:  nil,
-					Id:     ElementID{Row: 0, Col: 1},
-					GameID: id,
+					Value: nil,
+					Id:    ElementID{Row: 0, Col: 1},
 				},
 				Element{
-					Value:  nil,
-					Id:     ElementID{Row: 0, Col: 2},
-					GameID: id,
+					Value: nil,
+					Id:    ElementID{Row: 0, Col: 2},
 				},
 			},
 			{
 				Element{
-					Value:  nil,
-					Id:     ElementID{Row: 1, Col: 0},
-					GameID: id,
+					Value: nil,
+					Id:    ElementID{Row: 1, Col: 0},
 				},
 				Element{
-					Value:  nil,
-					Id:     ElementID{Row: 1, Col: 1},
-					GameID: id,
+					Value: nil,
+					Id:    ElementID{Row: 1, Col: 1},
 				},
 				Element{
-					Value:  nil,
-					Id:     ElementID{Row: 1, Col: 2},
-					GameID: id,
+					Value: nil,
+					Id:    ElementID{Row: 1, Col: 2},
 				},
 			},
 			{
 				Element{
-					Value:  nil,
-					Id:     ElementID{Row: 2, Col: 0},
-					GameID: id,
+					Value: nil,
+					Id:    ElementID{Row: 2, Col: 0},
 				},
 				Element{
-					Value:  nil,
-					Id:     ElementID{Row: 2, Col: 1},
-					GameID: id,
+					Value: nil,
+					Id:    ElementID{Row: 2, Col: 1},
 				},
 				Element{
-					Value:  nil,
-					Id:     ElementID{Row: 2, Col: 2},
-					GameID: id,
+					Value: nil,
+					Id:    ElementID{Row: 2, Col: 2},
 				},
 			},
 		},

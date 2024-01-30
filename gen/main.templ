@@ -1,0 +1,15 @@
+package gen
+
+import (
+	"context"
+	"io"
+	"os"
+
+	"github.com/a-h/templ"
+)
+
+templ headerTemplate(name string) {
+	<header data-testid="headerTemplate">
+	  <h1>{ name }</h1>
+	</header>
+  }

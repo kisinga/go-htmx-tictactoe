@@ -20,6 +20,7 @@ type ElementID struct {
 	Col int
 }
 type Element struct {
+	// I set this as a pointer so that I can check if it is nil or not
 	Value *ElementValue
 	Id    ElementID
 }
@@ -30,6 +31,7 @@ type PlayerNames struct {
 }
 
 type Row [3]Element
+
 type game struct {
 	GameID         int
 	Grid           [3]Row
@@ -46,8 +48,8 @@ var Games games
 type Player = int
 
 const (
-	Player1 Player = 1 << iota
-	Player2 Player = iota
+	Player1 Player = 1
+	Player2 Player = 2
 )
 
 func CreateNewGame(player1Name, player2Name string, id int) *game {

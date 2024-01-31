@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/kisinga/go-htmx-tictactoe/handler"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -10,7 +8,6 @@ import (
 )
 
 func main() {
-	fmt.Println("Hello World")
 
 	app := echo.New()
 

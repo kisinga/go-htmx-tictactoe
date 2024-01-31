@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "build:css": "tailwindcss build -i ./static/main.css -o ./static/tailwind.css"
+    "build:css": "tailwindcss build -i ./views/layout/main.css -o ./views/layout/tailwind.css"
   },
   "devDependencies": {
     "tailwindcss": "^3.3.3"

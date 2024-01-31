@@ -1,4 +1,7 @@
-<!DOCTYPE html>
+package view
+
+templ Root() {
+    <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -13,13 +16,13 @@
     ></script>
   </head>
   <body class="flex justify-center items-center min-h-screen bg-gray-100 p-4">
-    {{if .Winner}}
+    // {{if .Winner}}
     <div class="flex flex-col items-center space-y-4">
       <div class="text-2xl font-bold text-center">
-        Player {{.Winner}} won the game!
+        // Player {{.Winner}} won the game!
       </div>
       <form action="/reset" method="post">
-        <input type="hidden" name="gameID" value="{{.GameID}}">
+        <input type="hidden" name="gameID" value="{{.GameID}}"/>
         <button
           class="w-full bg-red-800 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-2 focus:outline-none focus:ring focus:ring-red-300"
           type="submit"
@@ -28,13 +31,13 @@
         </button>
       </form>
 
-    {{else if .}}
+    // {{else if .}}
     <div class="container mx-auto p-4 bg-white rounded-lg shadow-lg">
-      <div class="mb-4">{{template "name_card" .}}</div>
-      <div class="mt-4">{{template "grid" .Grid}}</div>
+    //   <div class="mb-4">{{template "name_card" .}}</div>
+    //   <div class="mt-4">{{template "grid" .Grid}}</div>
     </div>
 
-    {{else}}
+    // {{else}}
     <div class="flex flex-col items-center space-y-4">
       <form class="w-full max-w-xs" action="/new_game" method="post">
         <input
@@ -50,14 +53,17 @@
           placeholder="Enter Player2 name"
         />
         <button
-          class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2 focus:outline-none focus:ring focus:ring-blue-300"
+          class="btn btn-primary"
           type="submit"
         >
           Submit
         </button>
       </form>
     </div>
+    </div>
 
-    {{end}}
+    // {{end}}
   </body>
 </html>
+
+}

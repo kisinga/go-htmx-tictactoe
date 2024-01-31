@@ -1,8 +1,9 @@
 {
   "scripts": {
-    "build:css": "tailwindcss build -i ./views/layout/main.css -o ./views/layout/tailwind.css"
+    "build:css": "tailwindcss build -i ./view/css/main.css -o ./static/tailwind.css"
   },
   "devDependencies": {
+    "daisyui": "^4.6.1",
     "tailwindcss": "^3.3.3"
   }
 }

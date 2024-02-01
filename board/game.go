@@ -7,47 +7,47 @@ import (
 func CreateNewBoard(player1Name, player2Name string, gameID string) *model.Board {
 	g := &model.Board{
 		GameID: gameID,
-		Grid: [3]model.Row{
+		Rows: [3]model.Row{
 			{
-				model.Element{
+				model.Cell{
 					Value: nil,
-					Id:    model.ElementID{Row: 0, Col: 0},
+					Row:   0, Col: 0,
 				},
-				model.Element{
+				model.Cell{
 					Value: nil,
-					Id:    model.ElementID{Row: 0, Col: 1},
+					Row:   0, Col: 1,
 				},
-				model.Element{
+				model.Cell{
 					Value: nil,
-					Id:    model.ElementID{Row: 0, Col: 2},
+					Row:   0, Col: 2,
 				},
 			},
 			{
-				model.Element{
+				model.Cell{
 					Value: nil,
-					Id:    model.ElementID{Row: 1, Col: 0},
+					Row:   1, Col: 0,
 				},
-				model.Element{
+				model.Cell{
 					Value: nil,
-					Id:    model.ElementID{Row: 1, Col: 1},
+					Row:   1, Col: 1,
 				},
-				model.Element{
+				model.Cell{
 					Value: nil,
-					Id:    model.ElementID{Row: 1, Col: 2},
+					Row:   1, Col: 2,
 				},
 			},
 			{
-				model.Element{
+				model.Cell{
 					Value: nil,
-					Id:    model.ElementID{Row: 2, Col: 0},
+					Row:   2, Col: 0,
 				},
-				model.Element{
+				model.Cell{
 					Value: nil,
-					Id:    model.ElementID{Row: 2, Col: 1},
+					Row:   2, Col: 1,
 				},
-				model.Element{
+				model.Cell{
 					Value: nil,
-					Id:    model.ElementID{Row: 2, Col: 2},
+					Row:   2, Col: 2,
 				},
 			},
 		},

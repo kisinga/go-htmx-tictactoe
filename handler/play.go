@@ -17,7 +17,7 @@ type PlayHandler struct {
 func (h *PlayHandler) HandlePlay(c echo.Context) error {
 	rowStr := c.QueryParam("row")
 	colStr := c.QueryParam("col")
-	gameID := c.Param("id")
+	gameID := c.QueryParam("gameID")
 
 	row, err := strconv.Atoi(rowStr)
 	if err != nil {
@@ -35,7 +35,7 @@ func (h *PlayHandler) HandlePlay(c echo.Context) error {
 		return c.String(http.StatusBadRequest, "invalid game id provided")
 	}
 
-	winner, _, err := game.TakeTurn(row, col)
+	winner, cell, err := game.TakeTurn(row, col)
 	if err != nil {
 		fmt.Errorf("error: %v", err)
 		return err
@@ -45,5 +45,5 @@ func (h *PlayHandler) HandlePlay(c echo.Context) error {
 		return c.Render(http.StatusOK, "winner", game)
 	}
 
-	return render(c, view.Hello())
+	return render(c, view.Cell(*cell, gameID))
 }

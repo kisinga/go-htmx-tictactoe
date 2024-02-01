@@ -1,0 +1,24 @@
+package view
+
+import "github.com/kisinga/go-htmx-tictactoe/model"
+import "fmt"
+
+templ Cell(cell model.Cell, gameID string) {
+	if cell.Value == nil {
+		<button
+			hx-get={ fmt.Sprintf("/play?row=%d&col=%d&gameID=%s", cell.Row, cell.Col, gameID) }
+			hx-target="this"
+			hx-swap-oob="true"
+			hx-swap="outerHTML"
+			class="btn btn-primary mt-2"
+		>
+			Play
+		</button>
+	} else {
+		if cell.Value.XorO == model.X {
+			<span class="text-red-500">x</span>
+		} else {
+			<span class="text-blue-500">o</span>
+		}
+	}
+}

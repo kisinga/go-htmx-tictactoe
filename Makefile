@@ -1,6 +1,9 @@
 build:
 	@npm run build:css
 	@templ generate
-	@go run cmd/main.go
+	@go build -o ./tictactoe ./cmd
+
+run: build
+	@./tictactoe
 
 all: build

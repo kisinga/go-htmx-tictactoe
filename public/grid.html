@@ -1,9 +1,0 @@
-{{define "grid"}}
-<div>
-  {{range $row := .}}
-  <div class="grid grid-cols-3 gap-2">
-    {{ range $element := $row }} {{template "element" $element}}{{ end }}
-  </div>
-  {{end}}
-</div>
-{{end}}

@@ -1,18 +1,12 @@
-package game
+package board
 
 import (
-	"math/rand"
-
 	"github.com/kisinga/go-htmx-tictactoe/model"
 )
 
-type games map[int]*model.Board
-
-var Games games
-
-func CreateNewGame(player1Name, player2Name string, id int) *model.Board {
+func CreateNewBoard(player1Name, player2Name string, gameID string) *model.Board {
 	g := &model.Board{
-		GameID: id,
+		GameID: gameID,
 		Grid: [3]model.Row{
 			{
 				model.Element{
@@ -65,20 +59,4 @@ func CreateNewGame(player1Name, player2Name string, id int) *model.Board {
 		},
 	}
 	return g
-}
-
-func NewGame(player1Name, player2Name string) int {
-	id := generateGameId()
-	g := CreateNewGame(player1Name, player2Name, id)
-	Games[id] = g
-	return id
-}
-
-// a function that generates a random game id
-func generateGameId() int {
-	return rand.Intn(100000)
-}
-
-func init() {
-	Games = make(games)
 }

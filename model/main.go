@@ -30,7 +30,7 @@ type PlayerNames struct {
 type Row [3]Element
 
 type Board struct {
-	GameID         int
+	GameID         string
 	Grid           [3]Row
 	NextPlayerTurn Player
 	NextPlayerXorO XORO

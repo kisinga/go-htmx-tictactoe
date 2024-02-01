@@ -19,8 +19,8 @@ func (h *NewGameHandler) HandleNewGame(c echo.Context) error {
 	game := board.CreateNewBoard(player1, player2, "test")
 
 	// add the game to the map
-	(*h.Games)["game.GameID"] = game
+	(*h.Games)[game.GameID] = game
 
 	// fmt.Println(gameID)
-	return c.Redirect(http.StatusSeeOther, fmt.Sprintf("/game/%s", game.GameID))
+	return c.Redirect(http.StatusSeeOther, fmt.Sprintf("/board/%s", game.GameID))
 }

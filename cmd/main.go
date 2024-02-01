@@ -32,13 +32,17 @@ func main() {
 		Games: &games,
 	}
 
-	gameHandler := handler.GameHandler{}
+	boardHandler := handler.BoardHandler{
+		Games: &games,
+	}
 
 	app.GET("/", homeHandler.HandleHome)
 
 	app.GET("/play/:id", playHandler.HandlePlay)
 
 	app.POST("new_game", newGameHandler.HandleNewGame)
+
+	app.GET("/board/:id", boardHandler.HandleBoard)
 
 	app.Static("/static", "static")
 

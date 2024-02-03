@@ -110,3 +110,60 @@ func (g *Board) checkWinner() *Player {
 
 	return nil
 }
+
+func CreateNewBoard(player1Name, player2Name string, gameID string) *Board {
+	g := &Board{
+		GameID: gameID,
+		Rows: [3]Row{
+			{
+				Cell{
+					Value: nil,
+					Row:   0, Col: 0,
+				},
+				Cell{
+					Value: nil,
+					Row:   0, Col: 1,
+				},
+				Cell{
+					Value: nil,
+					Row:   0, Col: 2,
+				},
+			},
+			{
+				Cell{
+					Value: nil,
+					Row:   1, Col: 0,
+				},
+				Cell{
+					Value: nil,
+					Row:   1, Col: 1,
+				},
+				Cell{
+					Value: nil,
+					Row:   1, Col: 2,
+				},
+			},
+			{
+				Cell{
+					Value: nil,
+					Row:   2, Col: 0,
+				},
+				Cell{
+					Value: nil,
+					Row:   2, Col: 1,
+				},
+				Cell{
+					Value: nil,
+					Row:   2, Col: 2,
+				},
+			},
+		},
+		NextPlayerTurn: Player1,
+		NextPlayerXorO: X,
+		PlayerNames: PlayerNames{
+			Player1: player1Name,
+			Player2: player2Name,
+		},
+	}
+	return g
+}

@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/kisinga/go-htmx-tictactoe/board"
 	"github.com/kisinga/go-htmx-tictactoe/model"
 	"github.com/labstack/echo/v4"
 )
@@ -16,7 +15,7 @@ type NewGameHandler struct {
 func (h *NewGameHandler) HandleNewGame(c echo.Context) error {
 	player1 := c.FormValue("player1")
 	player2 := c.FormValue("player2")
-	game := board.CreateNewBoard(player1, player2, "test")
+	game := model.CreateNewBoard(player1, player2, "test")
 
 	// add the game to the map
 	(*h.Games)[game.GameID] = game

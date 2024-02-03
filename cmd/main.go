@@ -1,7 +1,6 @@
 package main
 
 import (
-	"github.com/kisinga/go-htmx-tictactoe/board"
 	"github.com/kisinga/go-htmx-tictactoe/handler"
 	"github.com/kisinga/go-htmx-tictactoe/model"
 	"github.com/labstack/echo/v4"
@@ -23,7 +22,7 @@ func main() {
 	// games state
 	games := make(map[string]*model.Board)
 
-	games["test"] = board.CreateNewBoard("player1", "player2", "test")
+	games["test"] = model.CreateNewBoard("player1", "player2", "test")
 
 	homeHandler := handler.HomeHandler{}
 

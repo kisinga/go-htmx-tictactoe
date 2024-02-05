@@ -11,7 +11,7 @@ type BoardHandler struct {
 }
 
 func (h *BoardHandler) HandleBoard(c echo.Context) error {
-	gameId := c.Param("id")
+	gameId := c.Param("gameID")
 	game := (*h.Games)[gameId]
 	if game == nil {
 		return c.String(404, "game not found")

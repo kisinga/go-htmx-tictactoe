@@ -2,11 +2,12 @@ package view
 
 import (
 	"github.com/kisinga/go-htmx-tictactoe/model"
+	"fmt"
 )
 
 templ Board(board *model.Board) {
 	@layout() {
-		<div>
+		<div hx-ext="sse" sse-connect={ fmt.Sprintf("/events/%s", board.GameID) }>
 			for _, row := range board.Rows {
 				<div class="grid grid-cols-3 gap-2">
 					for _, cell := range row {

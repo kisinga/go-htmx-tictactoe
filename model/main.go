@@ -4,6 +4,16 @@ import "errors"
 
 type XORO string
 
+func (x XORO) String() string {
+	return string(x)
+}
+
+type BroadcastChannelStruct struct {
+	GameID      string `json:"gameID"`
+	UpdatedCell *Cell  `json:"updatedCell"`
+}
+type BroadcastChannel chan BroadcastChannelStruct
+
 const X XORO = "x"
 const O XORO = "o"
 
@@ -15,8 +25,8 @@ type CellValue struct {
 type Cell struct {
 	// I set this as a pointer so that I can check if it is nil or not
 	Value *CellValue
-	Row   int
-	Col   int
+	Row   int `json:"row"`
+	Col   int `json:"col"`
 }
 
 type PlayerNames struct {

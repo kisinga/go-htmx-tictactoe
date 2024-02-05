@@ -11,7 +11,8 @@ import (
 )
 
 type PlayHandler struct {
-	Games *map[string]*model.Board
+	Games            *map[string]*model.Board
+	BroadcastChannel model.BroadcastChannel
 }
 
 func (h *PlayHandler) HandlePlay(c echo.Context) error {
@@ -36,6 +37,13 @@ func (h *PlayHandler) HandlePlay(c echo.Context) error {
 	}
 
 	winner, cell, err := game.TakeTurn(row, col)
+
+	// send the cell to the broadcast channel
+	h.BroadcastChannel <- model.BroadcastChannelStruct{
+		GameID:      gameID,
+		UpdatedCell: cell,
+	}
+
 	if err != nil {
 		fmt.Errorf("error: %v", err)
 		return err

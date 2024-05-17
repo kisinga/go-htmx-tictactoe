@@ -54,6 +54,9 @@ func main() {
 
 	app.GET("/board/:gameID", boardHandler.HandleBoard)
 
+	// @TODO: finish resetting the game
+	app.POST("/reset/:gameID", boardHandler.HandleBoard)
+
 	app.GET("/events/:gameID", eventsHandler.HandleEvents)
 
 	app.Static("/static", "static")

@@ -1,6 +1,6 @@
 module github.com/kisinga/go-htmx-tictactoe
 
-go 1.21.1
+go 1.22
 
 require (
 	github.com/a-h/templ v0.2.543

@@ -7,9 +7,12 @@ import (
 
 templ Board(board *model.Board) {
 	@layout() {
-		<div hx-ext="sse" sse-connect={ fmt.Sprintf("/events/%s", board.GameID) }>
-			for _, row := range board.Rows {
-				<div class="grid grid-cols-3 gap-2">
+		<div
+			hx-ext="sse"
+			sse-connect={ fmt.Sprintf("/events/%s", board.GameID) }
+		>
+			for rowId, row := range board.Rows {
+				<div class="grid grid-cols-3 gap-2" id={ fmt.Sprintf("row-%d", rowId) }>
 					for _, cell := range row {
 						@Cell(cell, board.GameID)
 					}

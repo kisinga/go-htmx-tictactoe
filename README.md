@@ -26,3 +26,14 @@ State is maintained on the server and the server sends the state to the clients.
 In order to receive state changes, the server creates a channel for each client. Each client subscribes to a specific game via SSE, meaning that each game change is broadcasted to all listening clients attached to it.
 Each game is itself a channel that broadcasts the state of the game to all the clients listening to it.
 An SSE channel is maintained for each client and each game. Whenever a client disconnects, the server closes the channel and removes the client from the game.
+
+## Logic flow
+
+Homepage --> Create Game (POST new_game, redirect --> board/gameID)
+board/gameID --> Join Game (GET request to /events/gameID)  
+
+At this point the client is listening to the gameID channel and will receive updates from the server
+
+board/gameID --> Make Move (POST play/gameID/row/col)
+
+Currently, any player can make a move, but the server will automatically switch the player after each move. The server will also check for a win or a draw and send the state to all the clients.

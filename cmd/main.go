@@ -48,7 +48,7 @@ func main() {
 
 	app.GET("/", homeHandler.HandleHome)
 
-	app.GET("/play", playHandler.HandlePlay)
+	app.POST("/play", playHandler.HandlePlay)
 
 	app.POST("new_game", newGameHandler.HandleNewGame)
 

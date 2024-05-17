@@ -6,14 +6,14 @@ import "fmt"
 templ Cell(cell model.Cell, gameID string) {
 	<div
 		class="w-16 h-16 flex justify-center items-center"
-		id={ fmt.Sprintf("%d-%d", cell.Row, cell.Col) }
+		id={ fmt.Sprintf("cell-%d-%d", cell.Row, cell.Col) }
+		hx-ext="sse"
+		sse-swap={ fmt.Sprintf("%d-%d", cell.Row, cell.Col) }
 	>
 		if cell.Value == nil {
 			<button
-				hx-ext="sse"
-				sse-swap={ fmt.Sprintf("%d-%d", cell.Row, cell.Col) }
-				hx-get={ fmt.Sprintf("/play?row=%d&col=%d&gameID=%s", cell.Row, cell.Col, gameID) }
-				hx-target="this"
+				hx-post={ fmt.Sprintf("/play?gameID=%s&row=%d&col=%d&", gameID, cell.Row, cell.Col) }
+				hx-target={ fmt.Sprintf("#cell-%d-%d", cell.Row, cell.Col) }
 				hx-swap-oob="true"
 				hx-swap="outerHTML"
 				class="btn btn-primary mt-2"

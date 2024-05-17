@@ -16,9 +16,9 @@ type PlayHandler struct {
 }
 
 func (h *PlayHandler) HandlePlay(c echo.Context) error {
+	gameID := c.QueryParam("gameID")
 	rowStr := c.QueryParam("row")
 	colStr := c.QueryParam("col")
-	gameID := c.QueryParam("gameID")
 
 	row, err := strconv.Atoi(rowStr)
 	if err != nil {
@@ -45,7 +45,7 @@ func (h *PlayHandler) HandlePlay(c echo.Context) error {
 	}
 
 	if err != nil {
-		fmt.Errorf("error: %v", err)
+		_ = fmt.Errorf("error: %v", err)
 		return err
 	}
 	if winner != nil {

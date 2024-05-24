@@ -50,7 +50,7 @@ func (h *PlayHandler) HandlePlay(c echo.Context) error {
 	}
 	if winner != nil {
 		c.Response().Header().Set("HX-Reload", "true")
-		return c.Render(http.StatusOK, "winner", game)
+		return c.Render(http.StatusOK, "winner", game.Winner)
 	}
 
 	return render(c, view.Cell(*cell, gameID))

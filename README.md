@@ -37,3 +37,7 @@ At this point the client is listening to the gameID channel and will receive upd
 board/gameID --> Make Move (POST play/gameID/row/col)
 
 Currently, any player can make a move, but the server will automatically switch the player after each move. The server will also check for a win or a draw and send the state to all the clients.
+
+## TODO
+Allow a max of 2 players to play the game, the rest should just be spectators
+Fix resetting the game after a win or a draw
